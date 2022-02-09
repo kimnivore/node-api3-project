@@ -4,8 +4,9 @@ const express = require('express');
 const Users = require('./users-model');
 const Posts = require('../posts/posts-model');
 
+
 // The middleware functions also need to be required
-const {} = require ('../middleware/middleware');
+const { logger, validateUserId, validateUser, validatePost } = require('../middleware/middleware');
 
 const router = express.Router();
 
@@ -24,7 +25,8 @@ router.get('/', (req, res, next) => {
     })
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', validateUserId, (req, res, next) => {
+  res.status(200).json(req.user);
   // RETURN THE USER OBJECT
   // this needs a middleware to verify user id
 });
