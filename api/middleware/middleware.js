@@ -7,11 +7,11 @@ function logger(req, res, next) {
 
 async function validateUserId(req, res, next) {
   let id = req.params.id;
-  let result = await Users.getById(id);
-  if(result == null) {
+  let user = await Users.getById(id);
+  if(user == null) {
     res.status(404).json({ message: "user not found" });
   } else {
-    req.user = result;
+    req.user = user;
     next();
   }
 }

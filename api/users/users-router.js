@@ -79,8 +79,17 @@ router.delete('/:id', validateUserId, (req, res) => {
 
 // RETURN THE ARRAY OF USER POSTS
   // this needs a middleware to verify user id
-router.get('/:id/posts', (req, res) => {
-  
+router.get('/:id/posts', validateUserId, (req, res) => {
+  Users.getUserPosts(req.params.id)
+  .then(posts => {
+    res.status(200).json(posts);
+  })
+  .catch(error => {
+    console.log(error);
+    res.status(500).json({
+      message: "Error getting posts for the user"
+    })
+  })
 });
 
  // RETURN THE NEWLY CREATED USER POST
