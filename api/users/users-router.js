@@ -97,10 +97,20 @@ router.post('/:id/posts', validateUserId, validatePost, (req, res, next) => {
   const postInfo = { ...req.body, user_id: req.params.id };
   Posts.insert(postInfo)
     .then(post => {
-      res.status(210).json(post);
+      res.status(201).json(post);
     })
     .catch(next)
 });
+
+//Alternative:
+// router.post('/:id/posts', validateUserId, validatePost, async (req, res, next) => {
+//   try {
+//     const result = await Posts.insert({ user_id: req.params.id, text: req.text })
+//     res.status(210).json(result);
+//     } catch(err){
+//       next(err)
+//     }
+// });
 
 router.use((err, req, res, next) => { // eslint-disable-line
   res.status(err.status || 500).json({
